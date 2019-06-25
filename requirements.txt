@@ -12,3 +12,5 @@ requests==1.0.4
 tweepy==1.7.1
 lxml==2.3.3
 pyOpenSSL==0.13
+ndg-httpsclient==0.51
+pyasn1==0.4.5
