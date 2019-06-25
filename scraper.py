@@ -32,6 +32,12 @@ soup = BeautifulSoup(htmlpage)
 
 table = soup.find ("tbody")
 
+# debugging
+
+print table
+
+# end debugging
+
 rows = table.findAll ("tr")
 
 for row in rows:
