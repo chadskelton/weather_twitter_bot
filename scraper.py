@@ -1,24 +1,94 @@
-# This is a template for a Python scraper on morph.io (https://morph.io)
-# including some code snippets below that you should find helpful
+#!/usr/bin/env python
 
-# import scraperwiki
-# import lxml.html
-#
-# # Read in a page
-# html = scraperwiki.scrape("http://foo.com")
-#
-# # Find something on the page using css selectors
-# root = lxml.html.fromstring(html)
-# root.cssselect("div[align='left']")
-#
-# # Write out to the sqlite database using scraperwiki library
-# scraperwiki.sqlite.save(unique_keys=['name'], data={"name": "susan", "occupation": "software developer"})
-#
-# # An arbitrary query against the database
-# scraperwiki.sql.select("* from data where 'name'='peter'")
+# @WarmerVancouver
+# Gmail: vancouveriswarmer@gmail.com
 
-# You don't have to do things with the ScraperWiki and lxml libraries.
-# You can use whatever libraries you want: https://morph.io/documentation/python
-# All that matters is that your final data is written to an SQLite database
-# called "data.sqlite" in the current working directory which has at least a table
-# called "data".
+import scraperwiki
+import tweepy
+import time
+from datetime import datetime
+import smtplib
+import requests
+from BeautifulSoup import BeautifulSoup
+import random
+import datetime
+
+TWEEPY_CONSUMER_KEY = 
+TWEEPY_CONSUMER_SECRET = 
+TWEEPY_ACCESS_TOKEN = 
+TWEEPY_ACCESS_TOKEN_SECRET = 
+
+auth1 = tweepy.auth.OAuthHandler(TWEEPY_CONSUMER_KEY, TWEEPY_CONSUMER_SECRET)
+auth1.set_access_token(TWEEPY_ACCESS_TOKEN, TWEEPY_ACCESS_TOKEN_SECRET)
+api = tweepy.API(auth1)
+
+url = "http://weather.gc.ca/canada_e.html"
+
+html = requests.get(url, verify=False)
+htmlpage = html.content
+
+soup = BeautifulSoup(htmlpage)
+
+table = soup.find ("tbody")
+
+rows = table.findAll ("tr")
+
+for row in rows:
+    cells = row.findAll ("td")
+    city = cells[0].text
+    rawdegrees = cells[2].text
+    degrees = int(rawdegrees.replace('&deg;C',''))
+    if 'Vancouver' in city:
+        vancouvertemp = degrees
+    # print city
+    # print degrees
+
+record = []
+
+recordlist = []
+
+for row in rows:
+    cells = row.findAll ("td")
+    city = cells[0].text
+    rawdegrees = cells[2].text
+    degrees = int(rawdegrees.replace('&deg;C',''))
+    if degrees < vancouvertemp:
+        record = []
+        if "Ottawa" in city:
+            city = "Ottawa"
+        record.append(city)
+        record.append(degrees)
+        record.append(vancouvertemp - degrees)
+        recordlist.append(record)
+        
+        # record["city"] = city
+        # record["degrees"] = degrees
+        # record["difference"] = (vancouvertemp-degrees)
+        # recordlist.append(record)
+
+print recordlist
+
+choice = random.choice(recordlist)
+    
+print choice
+
+amount = ""
+
+if choice[2] > 0:
+    amount = "a tiny bit"
+if choice[2] > 2:
+    amount = "a little bit"
+if choice[2] > 5:
+    amount = "quite a bit"
+if choice[2] > 10:
+    amount = "a lot"
+if choice[2] > 20:
+    amount = "waaay"
+if choice[2] > 30:
+    amount = "ridiculously"
+    
+statusupdate = "It's " + amount + " warmer in Vancouver right now (" + str(vancouvertemp) + "C) than in " + choice[0] + " (" + str(choice[1]) + "C). "
+
+print statusupdate
+
+api.update_status(status=statusupdate)
