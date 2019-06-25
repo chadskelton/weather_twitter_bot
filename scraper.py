@@ -28,17 +28,15 @@ url = "http://weather.gc.ca/canada_e.html"
 html = requests.get(url, verify=False)
 htmlpage = html.content
 
-soup = BeautifulSoup(htmlpage)
-
-# table = soup.find ("tbody")
-
-table = soup.find ("table")
-
 # debugging
 
-print table
+print htmlpage
 
 # end debugging
+
+soup = BeautifulSoup(htmlpage)
+
+table = soup.find ("tbody")
 
 rows = table.findAll ("tr")
 
