@@ -12,6 +12,7 @@ import requests
 from BeautifulSoup import BeautifulSoup
 import random
 import datetime
+import os
 
 TWEEPY_CONSUMER_KEY = os.environ['MORPH_CONSUMER_KEY']
 TWEEPY_CONSUMER_SECRET = os.environ['MORPH_CONSUMER_SECRET']
