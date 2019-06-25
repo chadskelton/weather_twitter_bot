@@ -30,7 +30,9 @@ htmlpage = html.content
 
 soup = BeautifulSoup(htmlpage)
 
-table = soup.find ("tbody")
+# table = soup.find ("tbody")
+
+table = soup.find ("table")
 
 # debugging
 
