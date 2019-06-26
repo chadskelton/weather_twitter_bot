@@ -23,7 +23,8 @@ TWEEPY_ACCESS_TOKEN_SECRET = os.environ['MORPH_ACCESS_TOKEN_SECRET']
 
 auth1 = tweepy.auth.OAuthHandler(TWEEPY_CONSUMER_KEY, TWEEPY_CONSUMER_SECRET)
 auth1.set_access_token(TWEEPY_ACCESS_TOKEN, TWEEPY_ACCESS_TOKEN_SECRET)
-api = tweepy.API(auth1)
+# api = tweepy.API(auth1)
+api = tweepy.API(auth1, secure=True)
 
 url = "http://weather.gc.ca/canada_e.html"
 
