@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Was getting 502 errors but then changed to Python 2.7.9 runtime (instead of Python 2.7.6). Seemed to grab the page OK then but had some issues with Tweepy
+
 # @WarmerVancouver
 # Gmail: vancouveriswarmer@gmail.com
 
